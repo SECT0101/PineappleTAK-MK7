@@ -1,0 +1,25 @@
+name: release
+
+# Push a tag like v1.0.0 to publish a release with the ready-to-install module package.
+on:
+  push:
+    tags: [ 'v*' ]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build the module
+        run: |
+          (cd module/PineappleTAK && npm ci --no-audit --no-fund --loglevel=error)
+          bash tools/build-module.sh
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: PineappleTAK-*.tar.gz

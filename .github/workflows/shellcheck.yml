@@ -1,0 +1,19 @@
+name: shellcheck
+
+on: [push, pull_request]
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: ShellCheck the service
+        # SC2140: the core intentionally joins quoted XML strings across lines
+        run: |
+          find pineappletak tools \( -name '*.sh' -o -path '*/mk7/bin/_pineap' \) -print0 | \
+            xargs -0 shellcheck -S warning -e SC2034,SC2155,SC2140,SC1090,SC1091
+      - name: Python and JavaScript syntax
+        run: |
+          find pineappletak module/PineappleTAK/projects -name '*.py' -print0 | xargs -0 python3 -m py_compile
+          python3 -m py_compile pineappletak/mk7/bin/sqlite3
+          find pineappletak -path '*/web/static/*.js' ! -path '*/leaflet/*' -print0 | xargs -0 -n1 node --check

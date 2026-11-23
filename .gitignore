@@ -1,0 +1,32 @@
+# Never commit TAK certificates or keys
+pineappletak/core/certs/*
+!pineappletak/core/certs/README.md
+*.p12
+*.pem
+*.key
+*.crt
+
+# Built module packages (published as release files)
+*.tar.gz
+
+# Module build: the service is copied in by tools/build-module.sh
+module/PineappleTAK/projects/PineappleTAK/src/assets/pineappletak/
+
+# Local test artifacts
+*.log
+.DS_Store
+__pycache__/
+
+# Generated on the device
+pineappletak/core/tiles/
+pineappletak/core/map/lib/
+
+# Site Wi-Fi profiles (facility BSSIDs) stay on the Pineapple
+pineappletak/core/watch/
+
+# Web console: password hash, HTTPS key, your markers, geofences and overlays
+pineappletak/core/web/auth
+pineappletak/core/web/tls/
+pineappletak/core/items.txt
+pineappletak/core/geofences.txt
+pineappletak/core/overlays/
